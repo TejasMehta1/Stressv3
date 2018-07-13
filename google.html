@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <title>Uplift</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom CSS: You can use this stylesheet to override any Bootstrap styles and/or apply your own styles -->
+    <link href="css/custom.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Custom Fonts from Google -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+</head>
+
+<body>
+
+  <header>
+          <div class="header-content">
+              <div class="header-content-inner">
+                  <h1>Profile</h1>
+                  <h3>Welcome <span id="clientName"></span>
+                    <form id="frm1">
+                    <h2>Name: <input style="color:black" type="text" id="name"></h2>
+                    <h2>Email: <input style="color:black" type="text" id="email"></span> </h2>
+                    <h2>Photo: <img id="img" width="12%"> <br>Enter New Image URL: <input id="url" style="color:black" type="text"></h2>
+                    <button class="btn btn-primary btn-lg" onclick="update()" id="submit-button">Submit Changes</button>
+                  </form>
+                </div>
+              </div>
+            </header>
+
+
+
+</body>
+
+<script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAn8ihqQb9eT5YQ9z2BdBvTxPwgb0Wtggo",
+    authDomain: "stressv3.firebaseapp.com",
+    databaseURL: "https://stressv3.firebaseio.com",
+    projectId: "stressv3",
+    storageBucket: "stressv3.appspot.com",
+    messagingSenderId: "1066903827845"
+  };
+  firebase.initializeApp(config);
+
+  function login(){
+    function newLoginHappened(user) {
+      if(user)
+      {
+        //user is signed in
+        app(user);
+      }
+      else{
+        var provider = new firebase.auth.GoogleAuthProvider();
+        firebase.auth().signInWithRedirect(provider);
+      }
+    }
+
+    firebase.auth().onAuthStateChanged(newLoginHappened);
+  }
+
+  function app(user) {
+    var user = firebase.auth().currentUser;
+    var name, email, photoUrl, uid, emailVerified;
+
+  if (user != null) {
+    name = user.displayName;
+    email = user.email;
+    photoUrl = user.photoURL;
+    emailVerified = user.emailVerified;
+    uid = user.uid;  // The user's ID, unique to the Firebase project. Do NOT use
+                 // this value to authenticate with your backend server, if
+                 // you have one. Use User.getToken() instead.
+    document.getElementById("clientName").innerHTML = name;
+    document.getElementById("name").value = name;
+    document.getElementById("email").value = email;
+    document.getElementById("img").src = photoUrl;
+    document.getElementById("url").value = photoUrl;
+
+    }
+}
+  function update(){
+     var name = document.getElementById("name").value;
+    var url = document.getElementById("url").value;
+    var user = firebase.auth().currentUser;
+
+user.updateProfile({
+  displayName: name,
+  photoURL: url
+}).then(function() {
+  // Update successful.
+  console.log("S!");
+}).catch(function(error) {
+  // An error happened.
+  console.log("Error!");
+});
+  }
+
+  window.onload = login;
+
+
+
+</script>
+
+</html>
