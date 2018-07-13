@@ -40,6 +40,10 @@
                     <h2>Name: <input style="color:black" type="text" id="name"></h2>
                     <h2>Email: <input style="color:black" type="text" id="email"></span> </h2>
                     <h2>Photo: <img id="img" width="12%"> <br>Enter New Image URL: <input id="url" style="color:black" type="text"></h2>
+                    <h2>Subject of Expertise: <input style="color:black" type="text" id="Topic"></h2>
+                    <h2>Conselour Type: <input style="color:black" type="text" id="Conselour Type"></span> </h2>                  
+                    <h2>Age: <input style="color:black" type="text" id="Age"></h2>
+                    <h2>Zipcode: <input style="color:black" type="text" id="Zipcode"></span> </h2>
                     <button class="btn btn-primary btn-lg" onclick="update()" id="submit-button">Submit Changes</button>
                   </form>
                 </div>
@@ -100,25 +104,43 @@
     }
 }
   function update(){
-     var name = document.getElementById("name").value;
+    var Topic = document.getElementById("Topic").value;
+    var Type = document.getElementById("Conselour Type").value;
+    var Age = document.getElementById("Age").value;
+    var Zipcode = document.getElementById("Zipcode").value;
+    
+    var database = firebase.database();
+    //writeUserData(Topic, Type, Age, Zipcode);
+    
+
+    var name = document.getElementById("name").value;
     var url = document.getElementById("url").value;
     var user = firebase.auth().currentUser;
+    function writeUserData(Topic, Type, Age, Zipcode) {
+	  firebase.database().ref('users/' + user.getUID()).set({
+	    topic: Topic,
+	    type: Type,
+	    age : Age,
+	    zipcode: Zipcode
+	  });
+	  
+	user.updateProfile({
+	  displayName: name,
+	  photoURL: url
+	}).then(function() {
+	  // Update successful.
+	  console.log("S!");
+	}).catch(function(error) {
+	  // An error happened.
+	  console.log("Error!");
+	});
+	  }
 
-user.updateProfile({
-  displayName: name,
-  photoURL: url
-}).then(function() {
-  // Update successful.
-  console.log("S!");
-}).catch(function(error) {
-  // An error happened.
-  console.log("Error!");
-});
-  }
-
-  window.onload = login;
-
-
+	  window.onload = login;
+	  
+}
+	  
+}
 
 </script>
 
