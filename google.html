@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <!-- The above 3 meta tags must come first in the head; any other head content must come after these tags -->
 
     <title>Uplift</title>
 
@@ -20,8 +20,8 @@
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
     <!-- Custom Fonts from Google -->
@@ -31,24 +31,25 @@
 
 <body>
 
-  <header>
-          <div class="header-content">
-              <div class="header-content-inner">
-                  <h1>Profile</h1>
-                  <h3>Welcome <span id="clientName"></span>
-                    <form id="frm1">
+<header>
+    <div class="header-content">
+        <div class="header-content-inner">
+            <h1>Profile</h1>
+            <h3>Welcome <span id="clientName"></span>
+                <form id="frm1">
                     <h2>Name: <input style="color:black" type="text" id="name"></h2>
                     <h2>Email: <input style="color:black" type="text" id="email"></span> </h2>
                     <h2>Photo: <img id="img" width="12%"> <br>Enter New Image URL: <input id="url" style="color:black" type="text"></h2>
                     <h2>Subject of Expertise: <input style="color:black" type="text" id="Topic"></h2>
-                    <h2>Conselour Type: <input style="color:black" type="text" id="Conselour Type"></span> </h2>                  
+                    <h2>Conselour Type: <input style="color:black" type="text" id="Conselour Type"></span> </h2>
                     <h2>Age: <input style="color:black" type="text" id="Age"></h2>
                     <h2>Zipcode: <input style="color:black" type="text" id="Zipcode"></span> </h2>
                     <button class="btn btn-primary btn-lg" onclick="update()" id="submit-button">Submit Changes</button>
-                  </form>
-                </div>
-              </div>
-            </header>
+                </form>
+                </h3>
+        </div>
+    </div>
+</header>
 
 
 
@@ -56,91 +57,95 @@
 
 <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
 <script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyAn8ihqQb9eT5YQ9z2BdBvTxPwgb0Wtggo",
-    authDomain: "stressv3.firebaseapp.com",
-    databaseURL: "https://stressv3.firebaseio.com",
-    projectId: "stressv3",
-    storageBucket: "stressv3.appspot.com",
-    messagingSenderId: "1066903827845"
-  };
-  firebase.initializeApp(config);
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyAn8ihqQb9eT5YQ9z2BdBvTxPwgb0Wtggo",
+        authDomain: "stressv3.firebaseapp.com",
+        databaseURL: "https://stressv3.firebaseio.com",
+        projectId: "stressv3",
+        storageBucket: "stressv3.appspot.com",
+        messagingSenderId: "1066903827845"
+    };
+    firebase.initializeApp(config);
 
-  function login(){
-    function newLoginHappened(user) {
-      if(user)
-      {
-        //user is signed in
-        app(user);
-      }
-      else{
-        var provider = new firebase.auth.GoogleAuthProvider();
-        firebase.auth().signInWithRedirect(provider);
-      }
+    function login(){
+        function newLoginHappened(user) {
+            if(user)
+            {
+                //user is signed in
+                app(user);
+            }
+            else{
+                var provider = new firebase.auth.GoogleAuthProvider();
+                firebase.auth().signInWithRedirect(provider);
+            }
+        }
+
+        firebase.auth().onAuthStateChanged(newLoginHappened);
     }
 
-    firebase.auth().onAuthStateChanged(newLoginHappened);
-  }
+    function app(user) {
+        var user = firebase.auth().currentUser;
+        var name, email, photoUrl, uid, emailVerified;
 
-  function app(user) {
-    var user = firebase.auth().currentUser;
-    var name, email, photoUrl, uid, emailVerified;
+        if (user != null) {
+            name = user.displayName;
+            email = user.email;
+            photoUrl = user.photoURL;
+            emailVerified = user.emailVerified;
+            uid = user.uid;  // The user's ID, unique to the Firebase project. Do NOT use
+            // this value to authenticate with your backend server, if
+            // you have one. Use User.getToken() instead.
+            document.getElementById("clientName").innerHTML = name;
+            document.getElementById("name").value = name;
+            document.getElementById("email").value = email;
+            document.getElementById("img").src = photoUrl;
+            document.getElementById("url").value = photoUrl;
 
-  if (user != null) {
-    name = user.displayName;
-    email = user.email;
-    photoUrl = user.photoURL;
-    emailVerified = user.emailVerified;
-    uid = user.uid;  // The user's ID, unique to the Firebase project. Do NOT use
-                 // this value to authenticate with your backend server, if
-                 // you have one. Use User.getToken() instead.
-    document.getElementById("clientName").innerHTML = name;
-    document.getElementById("name").value = name;
-    document.getElementById("email").value = email;
-    document.getElementById("img").src = photoUrl;
-    document.getElementById("url").value = photoUrl;
-
+        }
     }
-}
-  function update(){
-    var Topic = document.getElementById("Topic").value;
-    var Type = document.getElementById("Conselour Type").value;
-    var Age = document.getElementById("Age").value;
-    var Zipcode = document.getElementById("Zipcode").value;
-    
-    var database = firebase.database();
-    //writeUserData(Topic, Type, Age, Zipcode);
-    
+    function update(){
+        var Topic = document.getElementById("Topic").value;
+        var Type = document.getElementById("Conselour Type").value;
+        var Age = document.getElementById("Age").value;
+        var Zipcode = document.getElementById("Zipcode").value;
 
-    var name = document.getElementById("name").value;
-    var url = document.getElementById("url").value;
-    var user = firebase.auth().currentUser;
-    function writeUserData(Topic, Type, Age, Zipcode) {
-	  firebase.database().ref('users/' + user.getUID()).set({
-	    topic: Topic,
-	    type: Type,
-	    age : Age,
-	    zipcode: Zipcode
-	  });
-	  
-	user.updateProfile({
-	  displayName: name,
-	  photoURL: url
-	}).then(function() {
-	  // Update successful.
-	  console.log("S!");
-	}).catch(function(error) {
-	  // An error happened.
-	  console.log("Error!");
-	});
-	  }
+        var database = firebase.database();
 
-	  window.onload = login;
-	  
-}
-	  
-}
+
+
+        var name = document.getElementById("name").value;
+        var url = document.getElementById("url").value;
+        var user = firebase.auth().currentUser;
+        writeUserData(Topic, Type, Age, Zipcode, user);
+        function writeUserData(Topic, Type, Age, Zipcode, user) {
+            firebase.database().ref('users/' + user.getUID()).set({
+                topic: Topic,
+                type: Type,
+                age : Age,
+                zipcode: Zipcode
+            }).then(function onSuccess(res) {
+                user.updateProfile({
+                    displayName: name,
+                    photoURL: url
+                }).then(function() {
+                    // Update successful.
+                    console.log("S!");
+                }).catch(function(error) {
+                    // An error happened.
+                    console.log("Error!");
+                });
+            }).catch(function onError(err) {
+                console.log("Firebase Write Error!");
+            });
+        }
+    }
+
+    window.onload = login;
+
+
+
+
 
 </script>
 
