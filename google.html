@@ -67,7 +67,8 @@
         messagingSenderId: "1066903827845"
     };
     firebase.initializeApp(config);
-
+  </script>
+  <script>
     function login(){
         function newLoginHappened(user) {
             if(user)
@@ -80,14 +81,11 @@
                 firebase.auth().signInWithRedirect(provider);
             }
         }
-
         firebase.auth().onAuthStateChanged(newLoginHappened);
     }
-
     function app(user) {
         var user = firebase.auth().currentUser;
         var name, email, photoUrl, uid, emailVerified;
-
         if (user != null) {
             name = user.displayName;
             email = user.email;
@@ -101,7 +99,6 @@
             document.getElementById("email").value = email;
             document.getElementById("img").src = photoUrl;
             document.getElementById("url").value = photoUrl;
-
         }
     }
     function update(){
@@ -109,11 +106,7 @@
         var Type = document.getElementById("Conselour Type").value;
         var Age = document.getElementById("Age").value;
         var Zipcode = document.getElementById("Zipcode").value;
-
         var database = firebase.database();
-
-
-
         var name = document.getElementById("name").value;
         var url = document.getElementById("url").value;
         var user = firebase.auth().currentUser;
@@ -140,13 +133,9 @@
             });
         }
     }
-
     window.onload = login;
-
-
-
-
-
 </script>
+
+  
 
 </html>
