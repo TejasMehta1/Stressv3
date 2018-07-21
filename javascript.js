@@ -2,13 +2,13 @@
 
   // Initialize Firebase
   var config = {
-    apiKey: "AIzaSyBgJ0oC30I2QfkzihEAa4S7jAp8nbTtYR8",
-    authDomain: "train-times-e3143.firebaseapp.com",
-    databaseURL: "https://train-times-e3143.firebaseio.com",
-    projectId: "train-times-e3143",
-    storageBucket: "train-times-e3143.appspot.com",
-    messagingSenderId: "513115997272"
-  };
+      apiKey: "AIzaSyAHa7fmBJVbbtjXbtoNLZ08HcO6crzgduk",
+      authDomain: "stressv3-d1fcf.firebaseapp.com",
+      databaseURL: "https://stressv3-d1fcf.firebaseio.com",
+      projectId: "stressv3-d1fcf",
+      storageBucket: "",
+      messagingSenderId: "976626433998"
+    };
   firebase.initializeApp(config);
 
 var database = firebase.database();
